@@ -19,7 +19,7 @@
 > Đơn giản ta có thể biết đến wordpress như một công cụ giúp ta tao lên các trang web cá nhân một cách đơn giản nhât.
 
 
-#####b.Các điểm nổ bật : 
+#####b.Các điểm nổi bật : 
 
 > - Hệ thống Plugin phong phú và cập nhật liên tục, bạn cũng có thể tự viết plugin cho mình
 > - Hỗ trợ đa ngôn ngữ.
@@ -30,8 +30,8 @@
 > -Sao lưu dữ liệu một cách dễ dàng để backup hoặc chuyển nhà sang một nơi khác.
 > -Hỗ trợ import đa năng từ các blog khác như Blogspot, Tumblr, Blogger, LiveJournal …
 
-####2. Hướng dẫn cài server trên ubuntu server 12.04:
-#####a. Cập nhật hệ thống và cài đặt apache2:
+#### 2. Hướng dẫn cài server trên ubuntu server 12.04:
+##### a. Cập nhật hệ thống và cài đặt apache2:
 
  ```sh
    sudo  apt-get udate 
@@ -53,8 +53,8 @@ Sau khi tải và cài apache2. Truy cập vào địa chỉ:
   ```
  OK.Vậy là xong một phần
  
- #####b.Cài Mysql-server:
- 
+ #### b.Cài Mysql-server:
+  
   Câu lệnh:
    ```
      sudo apt-get install mysql-server libapache2-mod-auth-mysql php5-mysql
@@ -66,16 +66,14 @@ Sau khi tải và cài apache2. Truy cập vào địa chỉ:
    ```
  
  
- #####c. Cài đặt php:
- 
- 
+ #### c. Cài đặt php
  
  ```
     sudo apt-get install php5 libapache2-mod-php5 php5-mcrypt
      
  ```
  
- Cài đặt các gói phụ thuộc cho php
+- Cài đặt các gói phụ thuộc cho php
  
   tìm kiếm  các gói phụ thuộc cần thiết :
   ```
@@ -83,11 +81,11 @@ Sau khi tải và cài apache2. Truy cập vào địa chỉ:
       
   ```
   
-  Bạn sẽ được một danh sách các gói phụ thuộc có thể cài đi kèm với php :
+ - Bạn sẽ được một danh sách các gói phụ thuộc có thể cài đi kèm với php :
   
   ```
-         php5-cgi - server-side, HTML-embedded scripting language (CGI binary)
-         php5-cli - command-line interpreter for the php5 scripting language
+        php5-cgi - server-side, HTML-embedded scripting language (CGI binary)
+        php5-cli - command-line interpreter for the php5 scripting language
         php5-common - Common files for packages built from the php5 source
         php5-curl - CURL module for php5
         php5-dbg - Debug symbols for PHP5
@@ -112,31 +110,106 @@ Sau khi tải và cài apache2. Truy cập vào địa chỉ:
   
   
   
-  . Ở đây, tôi cài  gói liên kết với mysql :
-  
+  - Ở đây, tôi cài  gói liên kết với mysql :
 
-  
   ```
      sudo apt-get install php-mysql -y 
   ```
   
-  Sau khi cài đặt xong php. Để kiểm tra và xem thông tin của php:
+ - Sau khi cài đặt xong php. Để kiểm tra và xem thông tin của php:
   
   ```
      cd /var/www/html
      sudo vi info.php
   ```
-  Trong file [@info.php] ta viết như sau:
+  - Trong file [@info.php] ta viết như sau:
   ```
     <?php 
-      phpinfo();
+         phpinfo();
     ?>
   ```
-  
-  
-  
+  - Khởi động lại apache :
+   ```
+       sudo service apache2 restart
+   ```
+   
+####3 .Cài đặt wordpress:
+
+#####a.Tải gói cài đặt
+
+- Đăng nhập vào tài khoản root :
+  ```
+    su -i
+  ```
+- Tải gói cài đặt từ trang chủ wordpress:
+  ```
+  wget -O wordpress.tar.gz http://wordpress.org/latest.tar.gz
+
+  ```
+- giải nén vào thư muc /var/www:
+  ```
+   sudo tar -zxvf wordpress.tar.gz -C /var/www
+  ```
+- Cấp quyền truy cập cho users: 
+  ```
+    sudo chown ubuntu:data-www /var/www/wordpress
+  ```
+##### b.Tạo database và user:
  
+ - Tạo  database 'wordpress':
+  ```sh
+     mysql -u root -p
+     CREATE DATABASE wordpress;
+  ```
+  - Tạo User đăng nhập hệ thống:
+  ```
+     CREATE USER ngolong@localhost;
+  ```
+ - Tạo password cho tài khoản:
+ ```
+   SET PASSWORD FOR ngolong@localhost = PASSWORD("password"); 
+```
+  - Phân quyền cho tài khoản ngolong@localhost:
+```
+  GRANT ALL PRIVILEGES ON wordpress.* TO  ngolong@localhost IDENTIFIED BY 'password';
+ FLUSH PRIVILEGES; ```
+
+- Thoát: 
+  ```
+  exit
+```
+##### c.Cấu hình cho wordpress :
+
+ - Copy file cấu hình  :
+ ```
+     cp /var/www/wordpress/wp-config-sample.php  /var/www/wordpress/wp-config.php
+ ```
+ -Câu hình các thông số cho WP:
+
+```
+   /** MySQL database name */
+  define('DB_NAME', 'wordpress');
+   /** MySQL database username */
+  define('DB_USERNAME', 'ngolong');
+   /** MySQL database password */
+  define('DB_PASSWORD', 'longcoi');
+
+   /** MySQL hostname */
+   define('DB_HOST', 'localhost');
+
+  /** Database Charset to use in creating database tables. */
+   define('DB_CHARSET', 'utf8');
+
+  /** The Database Collate type. Don't change this if in doubt. */
+  define('DB_COLLATE', '');
+
+```
  
+- Kêt thúc quá trình  cài đặt .Truy cập vào địa chỉ:
+ ```
+   http:/// localhost
+```
+ để cài đặt...
  
  
  
