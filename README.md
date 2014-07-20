@@ -172,12 +172,13 @@ Sau khi tải và cài apache2. Truy cập vào địa chỉ:
   - Phân quyền cho tài khoản ngolong@localhost:
 ```
   GRANT ALL PRIVILEGES ON wordpress.* TO  ngolong@localhost IDENTIFIED BY 'password';
- FLUSH PRIVILEGES; ```
+ FLUSH PRIVILEGES;
+ ```
 
 - Thoát: 
   ```
   exit
-```
+ ```
 ##### c.Cấu hình cho wordpress :
 
  - Copy file cấu hình  :
